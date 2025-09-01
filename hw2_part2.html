@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CNIT 133 — HW2 Part 2</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body{font-family:Arial, sans-serif; padding:20px}
+    label{display:block;margin-top:8px} input{padding:6px;width:200px}
+    textarea{display:block;width:100%;max-width:520px;height:150px;margin-top:10px}
+    button{margin-top:10px}
+  </style>
+</head>
+<body>
+  <h1>Homework 2 — Part 2</h1>
+
+  <form id="form" onsubmit="return false;">
+    <label>Integer 1 <input id="a" type="text" placeholder="e.g., 5"></label>
+    <label>Integer 2 <input id="b" type="text" placeholder="e.g., 12"></label>
+    <label>Integer 3 <input id="c" type="text" placeholder="e.g., -3"></label>
+
+    <button type="button" id="go">Process</button>
+    <button type="reset">Clear</button>
+    <button type="button" id="fade">Fade Results</button>
+
+    <label for="out">Results</label>
+    <textarea id="out" readonly></textarea>
+  </form>
+
+  <p><a href="hw2.html">Back to Homework 2 Main</a></p>
+
+  <script>
+    const $out = $('#out'),
+          P = v => (/^-?\d+$/.test(v=v.trim()) ? parseInt(v,10) : NaN),
+          show = t => $out.stop(true,true).css('opacity',1).show().val(t);
+
+    $('#go').on('click', () => {
+      const a = P($('#a').val()), b = P($('#b').val()), c = P($('#c').val());
+      if ([a,b,c].some(Number.isNaN)) return show('Error: enter three integers (no decimals).');
+      const s = a+b+c;
+      show(`Inputs: ${a}, ${b}, ${c}
+Sum: ${s}
+Average: ${s/3}
+Product: ${a*b*c}
+Smallest: ${Math.min(a,b,c)}
+Largest: ${Math.max(a,b,c)}`);
+    });
+
+    $('#fade').on('click', () => $out.fadeOut(800));
+    $('#form').on('reset', () => setTimeout(() => show(''), 0));
+  </script>
+</body>
+</html>
